@@ -18,10 +18,8 @@ connection.once('open', () => {
 })
 
 const locationsRouter = require('./routes/locations')
-const currentLocationsRouter = require('./routes/currentLocations')
 
 app.use('/locations', locationsRouter)
-app.use('/currentLocations', currentLocationsRouter)
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`)
