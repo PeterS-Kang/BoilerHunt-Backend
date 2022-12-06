@@ -1,9 +1,9 @@
 const router = require('express').Router()
-let CurrentLocation = require('../models/location.model')
+let Location = require('../models/location.model')
 
 router.route('/').get((req, res) => {
-    CurrentLocation.find()
-        .then(currentLocations => res.json(currentLocations))
+    Location.find()
+        .then(locations => res.json(locations))
         .catch(err => res.status(400).json('Error: ' + err))
 })
 
@@ -13,33 +13,33 @@ router.route('/add').post((req, res) => {
     const latitude = Number(req.body.latitude)
     const longitude = Number(req.body.longitude)
 
-    const newCurrentLocation = new CurrentLocation({
+    const newLocation = new Location({
         name,
         completed, 
         latitude,
         longitude
     })
 
-    newCurrentLocation.save()
+    newLocation.save()
     .then(() => res.json('Location added!'))
     .catch(err => res.status(400).json('Error: ' + err))
 })
 
 router.route('/:id').delete((req, res) => {
-    CurrentLocation.findByIdAndDelete(req.params.id)
+    Location.findByIdAndDelete(req.params.id)
     .then(() => res.json('Location Deleted'))
     .catch(err => res.status(400).json('Error: ' + err))
 })
 
 router.route('/update/:id').post((req, res) => {
-    CurrentLocation.findById(req.params.id)
-    .then(currentLocation => {
-        currentLocation.name = req.body.name
-        currentLocation.completed = req.body.completed
-        currentLocation.latitude = req.body.latitude
-        currentLocation.longitude = req.body.longitude
+    Location.findById(req.params.id)
+    .then(location => {
+        location.name = req.body.name
+        location.completed = req.body.completed
+        location.latitude = req.body.latitude
+        location.longitude = req.body.longitude
 
-        currentLocation.save()
+        location.save()
             .then(() => res.json('Location updated'))
             .catch(err => res.status(400).json('Error: ' + err))
     })
